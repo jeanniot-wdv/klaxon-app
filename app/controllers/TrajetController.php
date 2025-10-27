@@ -1,5 +1,4 @@
 <?php
-// app/controllers/TrajetController.php
 namespace App\Controllers;
 
 use Core\Controller;

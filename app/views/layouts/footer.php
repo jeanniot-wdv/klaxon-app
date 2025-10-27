@@ -1,6 +1,6 @@
   </main>
 
-    <footer class="bg-light text-center text-muted py-4 mt-5">
+    <footer class="bg-light text-center text-muted py-4">
         <div class="container">
             <p class="mb-0">&copy; <?= date('Y') ?> Touche Pas au Klaxon - Gestion des trajets entre agences</p>
         </div>
