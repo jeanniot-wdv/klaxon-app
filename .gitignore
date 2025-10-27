@@ -1,0 +1,58 @@
+# Environnement et dépendances
+/vendor/
+/composer.lock
+
+# Fichiers de configuration locale
+.env
+.env.local
+.env*.local
+
+# Cache et logs
+/.cache/
+/storage/logs/
+/storage/framework/views/
+/storage/framework/cache/
+/storage/framework/sessions/
+
+# IDE et éditeurs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Système d'exploitation
+.DS_Store
+Thumbs.db
+
+# Fichiers de build et de compilation
+/node_modules/
+/dist/
+/build/
+/public/build/
+/public/js/app.js
+/public/css/app.css
+
+# Fichiers de base de données locales
+*.sqlite
+*.db
+
+# Fichiers de dump de base de données
+*.sql
+
+# Fichiers de logs
+*.log
+
+# Fichiers de cache PHP
+/bootstrap/cache/
+
+# Fichiers de configuration locale (ex: Apache/Nginx)
+*.conf.local
+
+# Fichiers de test et de coverage
+/phpunit.xml
+/coverage/
+/tests/_output/
+
+# Fichiers de dépendances front-end
+/yarn-error.log
+/package-lock.json
