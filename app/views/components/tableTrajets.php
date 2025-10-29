@@ -37,7 +37,7 @@
               data-bs-target="#trajetModal<?= $trajet['id'] ?>">
               <i class="bi bi-eye"></i> Voir
             </button>
-            <?php if (isset($_SESSION['user_id']) && ($trajet['user_id'] == $_SESSION['user_id'] || \App\Models\User::isAdmin($_SESSION['user_id']))): ?>
+            <?php if (isset($_SESSION['user_id']) && (($trajet['user_id'] ?? null) == $_SESSION['user_id'] || \App\Models\Auth::isAdmin())): ?>
               <a href="/trajets/edit/<?= $trajet['id'] ?>" class="btn btn-sm btn-outline-secondary">
                 <i class="bi bi-pencil"></i>
               </a>
