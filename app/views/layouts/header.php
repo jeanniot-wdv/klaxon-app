@@ -11,6 +11,7 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
       <a class="navbar-brand" href="/">
@@ -24,16 +25,14 @@
           <li class="nav-item">
             <a class="nav-link" href="/"><i class="bi bi-house"></i> Accueil</a>
           </li>
-
-          <?php if (isset($_SESSION['user_id'])): ?>
+          <?php if (\App\Models\Auth::isLoggedIn()): ?>
             <li class="nav-item">
               <a class="nav-link" href="/trajets/create"><i class="bi bi-plus-circle"></i> Ajouter un trajet</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/mes-trajets"><i class="bi bi-list-ul"></i> Mes trajets</a>
             </li>
-
-            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <?php if (\App\Models\Auth::isAdmin()): ?>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
                   <i class="bi bi-gear"></i> Administration
@@ -46,10 +45,9 @@
                 </ul>
               </li>
             <?php endif; ?>
-
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                <i class="bi bi-person-circle"></i> <?= htmlspecialchars($_SESSION['user_prenom']) ?>
+                <i class="bi bi-person-circle"></i> <?= htmlspecialchars($_SESSION['user_prenom'] ?? '') ?>
               </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="/logout"><i class="bi bi-box-arrow-right"></i> Déconnexion</a></li>
@@ -68,7 +66,7 @@
     </div>
   </nav>
 
-  <main class="container my-4 flex-grow-1">
+  <main class="container mt-4 flex-grow-1">
     <?php if (isset($_SESSION['success'])): ?>
       <div class="alert alert-success alert-dismissible fade show" role="alert">
         <?= $_SESSION['success'] ?>

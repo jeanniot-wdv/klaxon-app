@@ -1,5 +1,4 @@
 <?php
-// app/controllers/HomeController.php
 namespace App\Controllers;
 
 use Core\Controller;
@@ -11,9 +10,9 @@ class HomeController extends Controller
   {
     $db = Database::getInstance();
 
-    // Récupère les 5 dernières agences ajoutées
+    // Récupère les 6 dernières agences ajoutées
     $agences = $db->query(
-      "SELECT id, nom, ville FROM agences ORDER BY created_at DESC LIMIT 5"
+      "SELECT id, nom, ville FROM agences ORDER BY created_at DESC LIMIT 6"
     );
 
     // Récupère les 5 derniers trajets disponibles avec les commentaires
