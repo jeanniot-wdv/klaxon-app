@@ -59,9 +59,14 @@ class Trajet
     $db = Database::getInstance();
     return $db->execute(
       "UPDATE trajets
-             SET agence_depart_id = ?, agence_arrivee_id = ?, date_depart = ?,
-                 date_arrivee = ?, places_disponibles = ?, commentaire = ?
-             WHERE id = ?",
+         SET agence_depart_id = ?,
+             agence_arrivee_id = ?,
+             date_depart = ?,
+             date_arrivee = ?,
+             places_disponibles = ?,
+             commentaire = ?,
+             updated_at = NOW()
+         WHERE id = ?",
       [$agenceDepartId, $agenceArriveeId, $dateDepart, $dateArrivee, $placesDisponibles, $commentaire, $id]
     );
   }

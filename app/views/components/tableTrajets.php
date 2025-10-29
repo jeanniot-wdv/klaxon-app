@@ -32,7 +32,7 @@
             </span>
           </td>
           <td class="text-center">
-            <button class="btn btn-sm btn-primary"
+            <button class="btn btn-sm btn-outline-primary"
               data-bs-toggle="modal"
               data-bs-target="#trajetModal<?= $trajet['id'] ?>">
               <i class="bi bi-eye"></i> Voir
@@ -41,6 +41,13 @@
               <a href="/trajets/edit/<?= $trajet['id'] ?>" class="btn btn-sm btn-outline-secondary">
                 <i class="bi bi-pencil"></i>
               </a>
+
+              <form action="/trajets/delete/<?= $trajet['id'] ?>" method="POST" style="display: inline;">
+                <button type="submit" class="btn btn-sm btn-outline-danger"
+                  onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce trajet ?')">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </form>
             <?php endif; ?>
           </td>
         </tr>
