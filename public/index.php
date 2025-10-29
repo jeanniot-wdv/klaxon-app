@@ -13,10 +13,10 @@ $router->add('/trajets/contact/{id}', \App\Controllers\TrajetController::class, 
 $router->add('/trajets/send-message/{id}', \App\Controllers\TrajetController::class, 'sendMessage', ['POST']);
 $router->add('/agences/{id}', \App\Controllers\AgenceController::class, 'show');
 $router->add('/agences', \App\Controllers\AgenceController::class, 'index');
+$router->add('/trajets', \App\Controllers\TrajetController::class, 'index');
 
 // $router->add('/trajets/{id}', \App\Controllers\TrajetController::class, 'show');
 // $router->add('/trajets/recherche', \App\Controllers\TrajetController::class, 'search');
-
 
 // Récupérer l'URL actuelle
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -34,6 +34,5 @@ try {
     }
 } catch (\Exception $e) {
     header("HTTP/1.0 404 Not Found");
-    echo "Erreur: " . $e->getMessage();
-    // Ou inclure une vue 404: include __DIR__ . '/../app/views/errors/404.php';
+    include __DIR__ . '/../app/views/errors/404.php';
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use Core\Controller;
@@ -6,6 +7,82 @@ use Core\Database;
 
 class TrajetController extends Controller
 {
+  // Méthode pour afficher la liste des agences
+  public function index(): void
+  {
+    $db = Database::getInstance();
+
+    // Paramètres de pagination
+    $page = (int)($_GET['page'] ?? 1);
+    $perPage = 10;
+    $offset = ($page - 1) * $perPage;
+
+    // Filtres
+    $departId = $_GET['depart'] ?? null;
+    $arriveeId = $_GET['arrivee'] ?? null;
+
+    // Construction de la requête SQL
+    $sql = "SELECT
+                t.id,
+                CONCAT(u.prenom, ' ', u.nom) as conducteur,
+                ad.nom as agence_depart,
+                aa.nom as agence_arrivee,
+                t.date_depart,
+                t.places_disponibles,
+                t.commentaire
+            FROM trajets t
+            JOIN users u ON t.user_id = u.id
+            JOIN agences ad ON t.agence_depart_id = ad.id
+            JOIN agences aa ON t.agence_arrivee_id = aa.id
+            WHERE t.date_depart > NOW()";
+
+    $params = [];
+    if ($departId) {
+      $sql .= " AND t.agence_depart_id = ?";
+      $params[] = $departId;
+    }
+    if ($arriveeId) {
+      $sql .= " AND t.agence_arrivee_id = ?";
+      $params[] = $arriveeId;
+    }
+
+    $sql .= " ORDER BY t.date_depart ASC LIMIT ? OFFSET ?";
+    $params[] = $perPage;
+    $params[] = $offset;
+
+    $trajets = $db->query($sql, $params);
+
+    // Compte le nombre total de trajets (avec filtres)
+    $countSql = "SELECT COUNT(*) as count FROM trajets t WHERE t.date_depart > NOW()";
+    if ($departId) {
+      $countSql .= " AND t.agence_depart_id = ?";
+    }
+    if ($arriveeId) {
+      $countSql .= " AND t.agence_arrivee_id = ?";
+    }
+
+    $countParams = [];
+    if ($departId) $countParams[] = $departId;
+    if ($arriveeId) $countParams[] = $arriveeId;
+
+    $total = $db->fetch($countSql, $countParams)['count'];
+    $totalPages = ceil($total / $perPage);
+
+    // Récupère les agences pour le filtre
+    $agences = $db->query("SELECT id, nom FROM agences ORDER BY nom");
+
+    $this->render('trajets/index', [
+      'title' => 'Tous les trajets',
+      'trajets' => $trajets,
+      'currentPage' => $page,
+      'totalPages' => $totalPages,
+      'agences' => $agences,
+      'departId' => $departId,
+      'arriveeId' => $arriveeId
+    ]);
+  }
+
+  // Méthode pour afficher le formulaire de contact du conducteur
   public function contact(int $id): void
   {
     $db = Database::getInstance();
