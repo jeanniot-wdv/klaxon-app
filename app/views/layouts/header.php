@@ -68,7 +68,7 @@
     </div>
   </nav>
 
-  <main class="container my-4 flex-grow-1">
+  <main class="container mt-4 flex-grow-1">
     <?php if (isset($_SESSION['success'])): ?>
       <div class="alert alert-success alert-dismissible fade show" role="alert">
         <?= $_SESSION['success'] ?>

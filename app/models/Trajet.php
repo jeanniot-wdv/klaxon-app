@@ -86,4 +86,71 @@ class Trajet
             [$userId]
         );
     }
+    
+    // Récupère tous les trajets avec pagination et filtres optionnels
+    public static function getAllWithPagination(
+        int $page = 1,
+        int $perPage = 10,
+        ?int $departId = null,
+        ?int $arriveeId = null
+    ): array {
+        $db = Database::getInstance();
+        $offset = ($page - 1) * $perPage;
+
+        // Construction de la requête SQL
+        $sql = "SELECT
+                t.*,
+                CONCAT(u.prenom, ' ', u.nom) as conducteur,
+                ad.nom as agence_depart,
+                aa.nom as agence_arrivee
+                FROM trajets t
+                JOIN users u ON t.user_id = u.id
+                JOIN agences ad ON t.agence_depart_id = ad.id
+                JOIN agences aa ON t.agence_arrivee_id = aa.id
+                WHERE t.date_depart > NOW()";
+
+        $params = [];
+
+        // Ajout des filtres si présents
+        if ($departId) {
+            $sql .= " AND t.agence_depart_id = ?";
+            $params[] = $departId;
+        }
+
+        if ($arriveeId) {
+            $sql .= " AND t.agence_arrivee_id = ?";
+            $params[] = $arriveeId;
+        }
+
+        $sql .= " ORDER BY t.date_depart ASC LIMIT ? OFFSET ?";
+        $params[] = $perPage;
+        $params[] = $offset;
+
+        // Récupération des trajets
+        $trajets = $db->query($sql, $params);
+
+        // Récupération du total pour la pagination
+        $countSql = "SELECT COUNT(*) as total FROM trajets t WHERE t.date_depart > NOW()";
+        $countParams = [];
+
+        if ($departId) {
+            $countSql .= " AND t.agence_depart_id = ?";
+            $countParams[] = $departId;
+        }
+
+        if ($arriveeId) {
+            $countSql .= " AND t.agence_arrivee_id = ?";
+            $countParams[] = $arriveeId;
+        }
+
+        $total = $db->fetch($countSql, $countParams)['total'];
+        $pages = ceil($total / $perPage);
+
+        return [
+            'trajets' => $trajets,
+            'total' => $total,
+            'pages' => $pages,
+            'currentPage' => $page
+        ];
+    }
 }

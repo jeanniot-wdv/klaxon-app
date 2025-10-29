@@ -3,20 +3,28 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Core\Router;
 use App\Controllers\HomeController;
+use App\Controllers\AgenceController;
+use App\Controllers\TrajetController;
+use App\Controllers\ErrorController;
 
 // Initialiser le router
 $router = new Router();
 
 // Définir les routes
 $router->add('/', HomeController::class, 'index');
-$router->add('/trajets/contact/{id}', \App\Controllers\TrajetController::class, 'contact');
-$router->add('/trajets/send-message/{id}', \App\Controllers\TrajetController::class, 'sendMessage', ['POST']);
-$router->add('/agences/{id}', \App\Controllers\AgenceController::class, 'show');
-$router->add('/agences', \App\Controllers\AgenceController::class, 'index');
-$router->add('/trajets', \App\Controllers\TrajetController::class, 'index');
+$router->add('/trajets', TrajetController::class, 'index');
+$router->add('/trajets/contact/{id}', TrajetController::class, 'contact');
+$router->add('/trajets/send-message/{id}', TrajetController::class, 'sendMessage', ['POST']);
+$router->add('/agences', AgenceController::class, 'index');
+$router->add('/agences/{id}', AgenceController::class, 'show');
 
 // $router->add('/trajets/{id}', \App\Controllers\TrajetController::class, 'show');
 // $router->add('/trajets/recherche', \App\Controllers\TrajetController::class, 'search');
+
+// Routes d'erreur
+$router->add('/404', ErrorController::class, 'notFound');
+$router->add('/403', ErrorController::class, 'forbidden');
+
 
 // Récupérer l'URL actuelle
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -33,6 +41,9 @@ try {
         $controller->{$route['method']}();
     }
 } catch (\Exception $e) {
+    error_log($e->getMessage());
+    // Rediriger vers une page 404
     header("HTTP/1.0 404 Not Found");
-    include __DIR__ . '/../app/views/errors/404.php';
+    (new ErrorController())->notFound();
+    exit;
 }

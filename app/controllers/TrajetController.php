@@ -4,81 +4,40 @@ namespace App\Controllers;
 
 use Core\Controller;
 use Core\Database;
+use App\Models\Trajet;
+use App\Models\Agence;
 
 class TrajetController extends Controller
 {
-  // Méthode pour afficher la liste des agences
+  // Méthode pour afficher la liste des trajets avec pagination et filtres
   public function index(): void
   {
-    $db = Database::getInstance();
-
-    // Paramètres de pagination
-    $page = (int)($_GET['page'] ?? 1);
-    $perPage = 10;
-    $offset = ($page - 1) * $perPage;
-
-    // Filtres
+    // Récupère les filtres depuis l'URL
     $departId = $_GET['depart'] ?? null;
     $arriveeId = $_GET['arrivee'] ?? null;
+    $page = (int)($_GET['page'] ?? 1);
+    $page = max(1, $page); // Assure que la page est au moins 1
 
-    // Construction de la requête SQL
-    $sql = "SELECT
-                t.id,
-                CONCAT(u.prenom, ' ', u.nom) as conducteur,
-                ad.nom as agence_depart,
-                aa.nom as agence_arrivee,
-                t.date_depart,
-                t.places_disponibles,
-                t.commentaire
-            FROM trajets t
-            JOIN users u ON t.user_id = u.id
-            JOIN agences ad ON t.agence_depart_id = ad.id
-            JOIN agences aa ON t.agence_arrivee_id = aa.id
-            WHERE t.date_depart > NOW()";
+    // Récupère les trajets avec pagination via le modèle
+    $data = Trajet::getAllWithPagination($page, 10, $departId, $arriveeId);
 
-    $params = [];
-    if ($departId) {
-      $sql .= " AND t.agence_depart_id = ?";
-      $params[] = $departId;
-    }
-    if ($arriveeId) {
-      $sql .= " AND t.agence_arrivee_id = ?";
-      $params[] = $arriveeId;
-    }
+    // Récupère toutes les agences pour le filtre
+    $agences = Agence::all();
 
-    $sql .= " ORDER BY t.date_depart ASC LIMIT ? OFFSET ?";
-    $params[] = $perPage;
-    $params[] = $offset;
-
-    $trajets = $db->query($sql, $params);
-
-    // Compte le nombre total de trajets (avec filtres)
-    $countSql = "SELECT COUNT(*) as count FROM trajets t WHERE t.date_depart > NOW()";
-    if ($departId) {
-      $countSql .= " AND t.agence_depart_id = ?";
-    }
-    if ($arriveeId) {
-      $countSql .= " AND t.agence_arrivee_id = ?";
-    }
-
-    $countParams = [];
-    if ($departId) $countParams[] = $departId;
-    if ($arriveeId) $countParams[] = $arriveeId;
-
-    $total = $db->fetch($countSql, $countParams)['count'];
-    $totalPages = ceil($total / $perPage);
-
-    // Récupère les agences pour le filtre
-    $agences = $db->query("SELECT id, nom FROM agences ORDER BY nom");
-
+    // Prépare les données pour la vue
     $this->render('trajets/index', [
       'title' => 'Tous les trajets',
-      'trajets' => $trajets,
-      'currentPage' => $page,
-      'totalPages' => $totalPages,
+      'trajets' => $data['trajets'],
+      'pagination' => [
+        'currentPage' => $data['currentPage'],
+        'pages' => $data['pages'],
+        'total' => $data['total']
+      ],
       'agences' => $agences,
-      'departId' => $departId,
-      'arriveeId' => $arriveeId
+      'currentFilters' => [
+        'depart' => $departId,
+        'arrivee' => $arriveeId
+      ]
     ]);
   }
 
