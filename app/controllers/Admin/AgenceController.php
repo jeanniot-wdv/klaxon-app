@@ -17,21 +17,6 @@ class AgenceController extends Controller
         ]);
     }
 
-    public function show(int $id): void
-    {
-        AdminMiddleware::requireAdmin();
-        $agence = Agence::find($id);
-        if (!$agence) {
-            $_SESSION['error'] = "Agence non trouvée.";
-            header('Location: /admin/agences');
-            exit;
-        }
-        $this->render('admin/agences/show', [
-            'title' => "Détails de l'agence",
-            'agence' => $agence
-        ]);
-    }
-
     public function create(): void
     {
         AdminMiddleware::requireAdmin();

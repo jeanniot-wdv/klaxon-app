@@ -32,13 +32,14 @@
             </span>
           </td>
           <td class="text-center">
-            <?php if (\App\Models\Auth::isUser()): ?>
+            <?php if (\App\Models\Auth::isAdmin() === false): ?>
               <button class="btn btn-sm btn-outline-primary"
                 data-bs-toggle="modal"
                 data-bs-target="#trajetModal<?= $trajet['id'] ?>">
                 <i class="bi bi-eye"></i> Voir
               </button>
             <?php endif; ?>
+            
             <?php if (isset($_SESSION['user_id']) && (($trajet['user_id'] ?? null) == $_SESSION['user_id'] || \App\Models\Auth::isAdmin())): ?>
               <a href="/trajets/edit/<?= $trajet['id'] ?>" class="btn btn-sm btn-outline-secondary">
                 <i class="bi bi-pencil"></i>

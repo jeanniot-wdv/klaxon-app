@@ -1,3 +1,67 @@
+@charset "UTF-8";
+:root {
+  /* Couleurs principales */
+  --bs-primary: #0074c7;
+  --bs-primary-rgb: 0, 116, 199;
+  --bs-primary-text: #ffffff; /* Texte blanc sur fond bleu */
+  --bs-primary-bg-subtle: #e6f2fb; /* Fond bleu très clair */
+  --bs-primary-text-emphasis: #004a82; /* Texte bleu foncé */
+  --bs-primary-border-subtle: #b3d9f2;
+  --bs-secondary: #384050;
+  --bs-secondary-rgb: 56, 64, 80;
+  --bs-secondary-text: #ffffff; /* Texte blanc sur fond gris */
+  --bs-secondary-bg-subtle: #e8e9eb;
+  --bs-secondary-text-emphasis: #1c202a;
+  --bs-secondary-border-subtle: #c5c7cc;
+  --bs-success: #82b864;
+  --bs-success-rgb: 130, 184, 100;
+  --bs-success-text: #ffffff; /* Texte blanc sur fond vert */
+  --bs-success-bg-subtle: #f0f7eb;
+  --bs-success-text-emphasis: #527542;
+  --bs-success-border-subtle: #d1e5c3;
+  --bs-danger: #cd2c2e;
+  --bs-danger-rgb: 205, 44, 46;
+  --bs-danger-text: #ffffff; /* Texte blanc sur fond rouge */
+  --bs-danger-bg-subtle: #fce8e8;
+  --bs-danger-text-emphasis: #82191b;
+  --bs-danger-border-subtle: #f4c3c4;
+  --bs-warning: #f5a623;
+  --bs-warning-rgb: 245, 166, 35;
+  --bs-warning-text: #000000; /* Texte noir sur fond orange */
+  --bs-warning-bg-subtle: #fef5e7;
+  --bs-warning-text-emphasis: #9d6a17;
+  --bs-warning-border-subtle: #fce4b8;
+  --bs-info: #0074c7;
+  --bs-info-rgb: 0, 116, 199;
+  --bs-info-text: #ffffff;
+  --bs-info-bg-subtle: #e6f2fb;
+  --bs-info-text-emphasis: #004a82;
+  --bs-info-border-subtle: #b3d9f2;
+  --bs-light: #f1f8fc;
+  --bs-light-rgb: 241, 248, 252;
+  --bs-light-text: #00497c; /* Texte bleu foncé sur fond clair */
+  --bs-light-bg-subtle: #fafcfe;
+  --bs-light-text-emphasis: #00497c;
+  --bs-light-border-subtle: #d9ebf5;
+  --bs-dark: #00497c;
+  --bs-dark-rgb: 0, 73, 124;
+  --bs-dark-text: #ffffff; /* Texte blanc sur fond foncé */
+  --bs-dark-bg-subtle: #e6edf2;
+  --bs-dark-text-emphasis: #00304f;
+  --bs-dark-border-subtle: #b3cbd9;
+  /* Couleurs du body */
+  --bs-body-bg: #ffffff;
+  --bs-body-color: #00497c; /* Texte principal bleu foncé */
+  --bs-body-color-rgb: 0, 73, 124;
+  /* Couleurs de bordure et d'état */
+  --bs-border-color: #d9ebf5;
+  --bs-heading-color: #00497c;
+  --bs-link-color: #0074c7;
+  --bs-link-hover-color: #005a9e;
+  --bs-code-color: #cd2c2e;
+  --bs-btn-primary-bg: #0074c7 !important;
+}
+
 .card {
   transition: transform 0.2s, box-shadow 0.2s;
 }
