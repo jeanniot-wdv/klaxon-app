@@ -98,7 +98,7 @@ Modifiez le fichier `config/database.php` avec vos paramètres de connexion :
 ```php
 return [
     'host' => 'localhost',
-    'dbname' => 'klaxon_app',
+    'dbname' => 'klaxon-app',
     'username' => 'votre_utilisateur',
     'password' => 'votre_mot_de_passe',
     'charset' => 'utf8mb4'
