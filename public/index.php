@@ -1,27 +1,20 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Core\Router;
-use App\Controllers\HomeController;
-use App\Controllers\AgenceController;
-use App\Controllers\TrajetController;
-use App\Controllers\ErrorController;
 
 // Initialiser le router
 $router = new Router();
 
-// Définir les routes
-$router->add('/', HomeController::class, 'index');
-$router->add('/trajets', TrajetController::class, 'index');
-$router->add('/trajets/contact/{id}', TrajetController::class, 'contact');
-$router->add('/trajets/send-message/{id}', TrajetController::class, 'sendMessage', ['POST']);
-$router->add('/agences', AgenceController::class, 'index');
-$router->add('/agences/{id}', AgenceController::class, 'show');
+// Routes publiques
+$router->add('/', \App\Controllers\HomeController::class, 'index');
+$router->add('/trajets', \App\Controllers\TrajetController::class, 'index');
+$router->add('/trajets/recherche', \App\Controllers\TrajetController::class, 'search');
+$router->add('/agences', \App\Controllers\AgenceController::class, 'index');
+$router->add('/agences/{id}', \App\Controllers\AgenceController::class, 'show');
 
 // Routes pour l'authentification
 $router->add('/login', \App\Controllers\AuthController::class, 'login', ['GET']);
@@ -33,6 +26,8 @@ $router->add('/logout', \App\Controllers\AuthController::class, 'logout', ['GET'
 // Routes pour les trajets (avec protection)
 $router->add('/trajets/create', \App\Controllers\TrajetController::class, 'create');
 $router->add('/trajets/store', \App\Controllers\TrajetController::class, 'store', ['POST']);
+$router->add('/trajets/contact/{id}', \App\Controllers\TrajetController::class, 'contact');
+$router->add('/trajets/send-message/{id}', \App\Controllers\TrajetController::class, 'sendMessage', ['POST']);
 $router->add('/trajets/edit/{id}', \App\Controllers\TrajetController::class, 'edit');
 $router->add('/trajets/update/{id}', \App\Controllers\TrajetController::class, 'update', ['POST']);
 $router->add('/trajets/delete/{id}', \App\Controllers\TrajetController::class, 'destroy', ['POST']);
@@ -56,14 +51,9 @@ $router->add('/admin/agences/delete/{id}', \App\Controllers\Admin\AgenceControll
 $router->add('/admin/trajets', \App\Controllers\Admin\TrajetController::class, 'index');
 $router->add('/admin/trajets/delete/{id}', \App\Controllers\Admin\TrajetController::class, 'destroy', ['POST']);
 
-
-
-// $router->add('/trajets/{id}', \App\Controllers\TrajetController::class, 'show');
-// $router->add('/trajets/recherche', \App\Controllers\TrajetController::class, 'search');
-
 // Routes d'erreur
-$router->add('/404', ErrorController::class, 'notFound');
-$router->add('/403', ErrorController::class, 'forbidden');
+$router->add('/404', \App\Controllers\ErrorController::class, 'notFound');
+$router->add('/403', \App\Controllers\ErrorController::class, 'forbidden');
 
 
 // Récupérer l'URL actuelle
@@ -84,6 +74,6 @@ try {
     error_log($e->getMessage());
     // Rediriger vers une page 404
     header("HTTP/1.0 404 Not Found");
-    (new ErrorController())->notFound();
+    (new \App\Controllers\ErrorController())->notFound();
     exit;
 }
