@@ -17,7 +17,11 @@
     <?= $pagination['total'] ?> trajet<?= $pagination['total'] > 1 ? 's' : '' ?> trouvé<?= $pagination['total'] > 1 ? 's' : '' ?>
   </div>
 
-  <?php include __DIR__ . '/../components/tableTrajets.php' ?>
-  <?php include __DIR__ . '/../components/pagination.php' ?>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <?php include __DIR__ . '/../components/tableTrajets.php' ?>
+      <?php include __DIR__ . '/../components/pagination.php' ?>
+    </div>
+  </div>
 
 </div>

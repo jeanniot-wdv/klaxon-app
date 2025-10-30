@@ -6,7 +6,7 @@
         <th><i class="bi bi-calendar-event"></i> Date/Heure</th>
         <th><i class="bi bi-person-fill"></i> Conducteur</th>
         <th><i class="bi bi-people-fill"></i> Places</th>
-        <th class="text-center"><i class="bi bi-info-circle"></i> Détails</th>
+        <th class="text-center"><i class="bi bi-info-circle"></i> Action</th>
       </tr>
     </thead>
     <tbody>
@@ -32,11 +32,13 @@
             </span>
           </td>
           <td class="text-center">
-            <button class="btn btn-sm btn-outline-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#trajetModal<?= $trajet['id'] ?>">
-              <i class="bi bi-eye"></i> Voir
-            </button>
+            <?php if (\App\Models\Auth::isUser()): ?>
+              <button class="btn btn-sm btn-outline-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#trajetModal<?= $trajet['id'] ?>">
+                <i class="bi bi-eye"></i> Voir
+              </button>
+            <?php endif; ?>
             <?php if (isset($_SESSION['user_id']) && (($trajet['user_id'] ?? null) == $_SESSION['user_id'] || \App\Models\Auth::isAdmin())): ?>
               <a href="/trajets/edit/<?= $trajet['id'] ?>" class="btn btn-sm btn-outline-secondary">
                 <i class="bi bi-pencil"></i>

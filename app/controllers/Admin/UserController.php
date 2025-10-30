@@ -14,25 +14,9 @@ class UserController extends Controller
   {
     AdminMiddleware::requireAdmin();
     $users = User::all();
-    $this->render('admin/users/index', [
+    $this->renderAdmin('users/index', [
       'title' => 'Gestion des utilisateurs',
       'users' => $users
-    ]);
-  }
-
-  // Affiche les détails d'un utilisateur
-  public function show(int $id): void
-  {
-    AdminMiddleware::requireAdmin();
-    $user = User::find($id);
-    if (!$user) {
-      $_SESSION['error'] = "Utilisateur non trouvé.";
-      header('Location: /admin/users');
-      exit;
-    }
-    $this->render('admin/users/show', [
-      'title' => "Détails de l'utilisateur",
-      'user' => $user
     ]);
   }
 
