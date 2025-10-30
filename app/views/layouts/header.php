@@ -26,23 +26,23 @@
             <a class="nav-link" href="/"><i class="bi bi-house"></i> Accueil</a>
           </li>
           <?php if (\App\Models\Auth::isLoggedIn()): ?>
-            <li class="nav-item">
-              <a class="nav-link" href="/trajets/create"><i class="bi bi-plus-circle"></i> Ajouter un trajet</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/mes-trajets"><i class="bi bi-list-ul"></i> Mes trajets</a>
-            </li>
+            <?php if (\App\Models\Auth::isUser()): ?>
+              <li class="nav-item">
+                <a class="nav-link" href="/trajets/create"><i class="bi bi-plus-circle"></i> Ajouter un trajet</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/mes-trajets"><i class="bi bi-list-ul"></i> Mes trajets</a>
+              </li>
+            <?php endif; ?>
             <?php if (\App\Models\Auth::isAdmin()): ?>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
-                  <i class="bi bi-gear"></i> Administration
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="/admin/dashboard">Dashboard</a></li>
-                  <li><a class="dropdown-item" href="/admin/users">Utilisateurs</a></li>
-                  <li><a class="dropdown-item" href="/admin/trajets">Trajets</a></li>
-                  <li><a class="dropdown-item" href="/admin/agences">Agences</a></li>
-                </ul>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/users"><i class="bi bi-people"></i> Utilisateurs</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/trajets"><i class="bi bi-car-front"></i> Trajets</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/agences"><i class="bi bi-buildings"></i> Agences</a>
               </li>
             <?php endif; ?>
             <li class="nav-item dropdown">
@@ -67,18 +67,3 @@
   </nav>
 
   <main class="container mt-4 flex-grow-1">
-    <?php if (isset($_SESSION['success'])): ?>
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <?= $_SESSION['success'] ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-      </div>
-      <?php unset($_SESSION['success']); ?>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION['error'])): ?>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <?= $_SESSION['error'] ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-      </div>
-      <?php unset($_SESSION['error']); ?>
-    <?php endif; ?>

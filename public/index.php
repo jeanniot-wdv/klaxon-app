@@ -38,6 +38,25 @@ $router->add('/trajets/update/{id}', \App\Controllers\TrajetController::class, '
 $router->add('/trajets/delete/{id}', \App\Controllers\TrajetController::class, 'destroy', ['POST']);
 $router->add('/mes-trajets', \App\Controllers\TrajetController::class, 'myTrajets');
 
+// Routes pour l'admin
+$router->add('/admin/users', \App\Controllers\Admin\UserController::class, 'index');
+$router->add('/admin/users/create', \App\Controllers\Admin\UserController::class, 'create');
+$router->add('/admin/users/store', \App\Controllers\Admin\UserController::class, 'store', ['POST']);
+$router->add('/admin/users/edit/{id}', \App\Controllers\Admin\UserController::class, 'edit');
+$router->add('/admin/users/update/{id}', \App\Controllers\Admin\UserController::class, 'update', ['POST']);
+$router->add('/admin/users/delete/{id}', \App\Controllers\Admin\UserController::class, 'destroy', ['POST']);
+
+$router->add('/admin/agences', \App\Controllers\Admin\AgenceController::class, 'index');
+$router->add('/admin/agences/create', \App\Controllers\Admin\AgenceController::class, 'create');
+$router->add('/admin/agences/store', \App\Controllers\Admin\AgenceController::class, 'store', ['POST']);
+$router->add('/admin/agences/edit/{id}', \App\Controllers\Admin\AgenceController::class, 'edit');
+$router->add('/admin/agences/update/{id}', \App\Controllers\Admin\AgenceController::class, 'update', ['POST']);
+$router->add('/admin/agences/delete/{id}', \App\Controllers\Admin\AgenceController::class, 'destroy', ['POST']);
+
+$router->add('/admin/trajets', \App\Controllers\Admin\TrajetController::class, 'index');
+$router->add('/admin/trajets/delete/{id}', \App\Controllers\Admin\TrajetController::class, 'destroy', ['POST']);
+
+
 
 // $router->add('/trajets/{id}', \App\Controllers\TrajetController::class, 'show');
 // $router->add('/trajets/recherche', \App\Controllers\TrajetController::class, 'search');

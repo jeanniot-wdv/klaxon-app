@@ -65,6 +65,12 @@ class Auth
     return null;
   }
 
+  // Vérifie si l'utilisateur n'est pas admin
+  public static function isUser(): bool
+  {
+    return self::isLoggedIn() && ($_SESSION['user_role'] ?? '') === 'user';
+  }
+
   // Vérifie si l'utilisateur est admin
   public static function isAdmin(): bool
   {
